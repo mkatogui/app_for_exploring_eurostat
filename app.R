@@ -9,20 +9,21 @@ library(shinydashboard)
 # Loading table
 table_of_contents_en <- read.delim("table_of_contents_en.txt")
 
-# Define UI
-ui <- dashboardPage(
-  dashboardHeader(title = "Eurostat Data"),
+ui <- dashboardPage( 
+  dashboardHeader(title = "Eurostat Data"),  
   dashboardSidebar(
-    textInput("input1", label = "First Input", value = "agriculture"),
+    p("This app allows the user to explore datasets from Eurostat and download them."),
+    tags$a(href = "https://github.com/mkatogui/app_for_exploring_eurostat", "Click here to visit the repository to run it locally in your computer. github.com/mkatogui"),
+    textInput("input1", label = "Select your topic", value = "agriculture"),    
     selectInput("input2", label = "Second Input (select table 'code')",
-                choices = table_of_contents_en$code, 
+                choices = table_of_contents_en$code,   
                 multiple = TRUE,
                 selected = "aact_eaa03"),
     selectInput("input3", label = "Third Input (select country)",
-                choices = unique(get_eurostat("aact_eaa03")$geo), 
+                choices = unique(get_eurostat("aact_eaa03")$geo),   
                 multiple = TRUE,
                 selected = "DE"),
-    textInput("input4", label = "File Name", value = "Output")
+    textInput("input4", label = "File Name", value = "Output")  
   ),
   dashboardBody(
     tabsetPanel(
@@ -30,7 +31,7 @@ ui <- dashboardPage(
       tabPanel("2. Displaying all data found", DTOutput("output2")),
       tabPanel("3. Filtered by Country/Geo", DTOutput("output3")),
       tabPanel("Download", downloadButton("downloadData", "Download"))
-    )
+    )  
   )
 )
 
